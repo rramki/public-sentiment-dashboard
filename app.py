@@ -77,11 +77,11 @@ st.title("📊 Social Media Sentiment Monitor")
 # ---------------------------
 st.sidebar.header("Settings")
 
-company_name = st.sidebar.text_input("Enter Company Name", "Tesla")
+company_name = st.sidebar.text_input("Enter Company Name", "SASTRA")
 
 news_api_key = st.sidebar.text_input("News API Key", type="password")
-reddit_client_id = st.sidebar.text_input("Reddit Client ID")
-reddit_client_secret = st.sidebar.text_input("Reddit Client Secret")
+reddit_client_id = st.sidebar.text_input("SASTRA Reddit Client ID")
+reddit_client_secret = st.sidebar.text_input("SASTRA Reddit Client Secret")
 reddit_user_agent = st.sidebar.text_input("Reddit User Agent", "sentiment_app")
 
 analyze_button = st.sidebar.button("Analyze")
