@@ -6,6 +6,7 @@ from PIL import Image
 
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+
 # Load logo
 logo = Image.open("logo.png")
 
