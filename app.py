@@ -14,7 +14,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     st.image("logo.png", width=750)
 
-st.title("My Streamlit App")
+st.title("SASTRA.ai")
 
 st.set_page_config(page_title="Sentiment Dashboard", layout="wide")
 st.title("📊 Public Sentiment Monitoring Dashboard")
