@@ -3,7 +3,8 @@ import pandas as pd
 import json
 import plotly.express as px
 
-from langchain.prompts import PromptTemplate
+#from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_community.llms import Ollama
 from langchain.chains import LLMChain
 
