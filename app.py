@@ -70,15 +70,18 @@ if uploaded_file:
     st.dataframe(df)
 
 
-import requests
+st.title("📊 Social Media Sentiment Monitor")
 
-api_key = "d71e354c78dc41079b32fa6e40cbdb56"
-company = "SASTRA Deemed to be University"
+# ---------------------------
+# SIDEBAR INPUTS
+# ---------------------------
+st.sidebar.header("Settings")
 
-url = f"https://newsapi.org/v2/everything?q={company}&apiKey={api_key}"
+company_name = st.sidebar.text_input("Enter Company Name", "Tesla")
 
-response = requests.get(url)
-data = response.json()
+news_api_key = st.sidebar.text_input("News API Key", type="password")
+reddit_client_id = st.sidebar.text_input("Reddit Client ID")
+reddit_client_secret = st.sidebar.text_input("Reddit Client Secret")
+reddit_user_agent = st.sidebar.text_input("Reddit User Agent", "sentiment_app")
 
-for article in data["articles"]:
-    st.write(article["title"])
+analyze_button = st.sidebar.button("Analyze")
