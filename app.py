@@ -43,7 +43,10 @@ if uploaded_file:
         """
     )
 
-    chain = LLMChain(llm=llm, prompt=prompt)
+    
+    #chain = LLMChain(llm=llm, prompt=prompt)
+    chain = prompt | llm
+    response = chain.invoke({"text": text})
 
     sentiments = []
     confidences = []
