@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import plotly.express as px
 from PIL import Image
-
+from transformers import pipeline
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
