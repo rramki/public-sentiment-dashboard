@@ -11,7 +11,7 @@ from langchain_openai import ChatOpenAI
 logo = Image.open("logo.png")
 
 # Display logo
-st.image(logo, width=200)
+st.image(logo, width=1000)
 
 st.title("My Streamlit App")
 
