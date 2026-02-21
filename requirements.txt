@@ -1,6 +1,7 @@
 streamlit
 langchain 
 langchain-community 
-ollama pandas 
+ollama 
+pandas 
 matplotlib plotly
 openai
