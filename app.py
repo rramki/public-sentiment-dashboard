@@ -68,3 +68,17 @@ if uploaded_file:
     st.plotly_chart(fig)
 
     st.dataframe(df)
+
+
+import requests
+
+api_key = "d71e354c78dc41079b32fa6e40cbdb56"
+company = "SASTRA Deemed to be University"
+
+url = f"https://newsapi.org/v2/everything?q={company}&apiKey={api_key}"
+
+response = requests.get(url)
+data = response.json()
+
+for article in data["articles"]:
+    st.write(article["title"])
