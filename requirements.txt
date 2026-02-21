@@ -1,8 +1,7 @@
 streamlit
-langchain 
-langchain-community 
-ollama 
-pandas 
-matplotlib
-plotly
+langchain
+langchain-core
+langchain-openai
 openai
+pandas
+plotly
