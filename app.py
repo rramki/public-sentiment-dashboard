@@ -14,10 +14,10 @@ uploaded_file = st.file_uploader("data.csv", type=["csv"])
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
 
-    llm = ChatOpenAI(
-        model="gpt-3.5-turbo",
-        api_key=st.secrets["OPENAI_API_KEY"]
-    )
+   llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    api_key=st.secrets["OPENAI_API_KEY"]
+)
 
     prompt = PromptTemplate(
         input_variables=["text"],
