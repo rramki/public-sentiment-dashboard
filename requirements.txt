@@ -5,3 +5,8 @@ langchain-openai
 openai
 pandas
 plotly
+praw
+requests
+transformers
+torch
+matplotlib
