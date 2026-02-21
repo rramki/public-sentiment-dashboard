@@ -85,3 +85,85 @@ reddit_client_secret = st.sidebar.text_input("Reddit Client Secret")
 reddit_user_agent = st.sidebar.text_input("Reddit User Agent", "sentiment_app")
 
 analyze_button = st.sidebar.button("Analyze")
+
+# ---------------------------
+# LOAD SENTIMENT MODEL
+# ---------------------------
+@st.cache_resource
+def load_model():
+    return pipeline("sentiment-analysis")
+
+sentiment_model = load_model()
+
+# ---------------------------
+# FETCH NEWS DATA
+# ---------------------------
+def fetch_news(company):
+    url = f"https://newsapi.org/v2/everything?q={company}&apiKey={news_api_key}"
+    response = requests.get(url)
+    data = response.json()
+    articles = []
+
+    if "articles" in data:
+        for article in data["articles"]:
+            if article["title"]:
+                articles.append(article["title"])
+
+    return articles
+
+# ---------------------------
+# FETCH REDDIT DATA
+# ---------------------------
+def fetch_reddit(company):
+    reddit = praw.Reddit(
+        client_id=reddit_client_id,
+        client_secret=reddit_client_secret,
+        user_agent=reddit_user_agent
+    )
+
+    posts = []
+    for submission in reddit.subreddit("all").search(company, limit=20):
+        posts.append(submission.title)
+
+    return posts
+
+# ---------------------------
+# ANALYSIS SECTION
+# ---------------------------
+if analyze_button:
+
+    all_text = []
+
+    with st.spinner("Fetching News..."):
+        news_data = fetch_news(company_name)
+        all_text.extend(news_data)
+
+    with st.spinner("Fetching Reddit Posts..."):
+        reddit_data = fetch_reddit(company_name)
+        all_text.extend(reddit_data)
+
+    if len(all_text) == 0:
+        st.warning("No data found.")
+    else:
+        st.success(f"Collected {len(all_text)} posts/articles")
+
+        # Sentiment Analysis
+        results = sentiment_model(all_text)
+
+        df = pd.DataFrame(results)
+        sentiment_counts = df["label"].value_counts()
+
+        # Display Results
+        st.subheader("Sentiment Distribution")
+
+        fig, ax = plt.subplots()
+        sentiment_counts.plot(kind="bar", ax=ax)
+        st.pyplot(fig)
+
+        st.subheader("Sample Data")
+        display_df = pd.DataFrame({
+            "Text": all_text,
+            "Sentiment": df["label"]
+        })
+
+        st.dataframe(display_df.head(10))
