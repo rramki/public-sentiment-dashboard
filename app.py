@@ -3,95 +3,58 @@ import pandas as pd
 import json
 import plotly.express as px
 
-#from langchain.prompts import PromptTemplate
 from langchain_core.prompts import PromptTemplate
-from langchain_community.llms import Ollama
-#from langchain.chains import LLMChain
+from langchain_openai import ChatOpenAI
 
-# ----------------------------
-# PAGE CONFIG
-# ----------------------------
 st.set_page_config(page_title="Sentiment Dashboard", layout="wide")
 st.title("📊 Public Sentiment Monitoring Dashboard")
 
-# ----------------------------
-# LOAD DATA
-# ----------------------------
 uploaded_file = st.file_uploader("data.csv", type=["csv"])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
 
-    # ----------------------------
-    # LLM SETUP (Ollama Example)
-    # ----------------------------
-    llm = Ollama(model="llama3")
+    llm = ChatOpenAI(
+        model="gpt-3.5-turbo",
+        api_key=st.secrets["OPENAI_API_KEY"]
+    )
 
     prompt = PromptTemplate(
         input_variables=["text"],
         template="""
-        Analyze the sentiment of the following text.
-
-        Return output in JSON format:
+        Analyze sentiment and return JSON:
         {{
             "sentiment": "Positive/Negative/Neutral",
-            "confidence": 0-100,
-            "summary": "short explanation"
+            "confidence": 0-100
         }}
 
         Text: {text}
         """
     )
 
-    
-    #chain = LLMChain(llm=llm, prompt=prompt)
     chain = prompt | llm
-    response = chain.invoke({"text": text})
 
     sentiments = []
     confidences = []
-    summaries = []
 
-    # ----------------------------
-    # SENTIMENT ANALYSIS
-    # ----------------------------
-    with st.spinner("Analyzing sentiments..."):
+    with st.spinner("Analyzing..."):
         for text in df["text"]:
-            response = chain.run(text=text)
+            response = chain.invoke({"text": text})
 
             try:
-                result = json.loads(response)
+                result = json.loads(response.content)
                 sentiments.append(result["sentiment"])
                 confidences.append(result["confidence"])
-                summaries.append(result["summary"])
             except:
                 sentiments.append("Error")
                 confidences.append(0)
-                summaries.append("Parsing Error")
 
     df["Sentiment"] = sentiments
     df["Confidence"] = confidences
-    df["Summary"] = summaries
 
-    # ----------------------------
-    # DASHBOARD METRICS
-    # ----------------------------
-    col1, col2, col3 = st.columns(3)
+    st.metric("Total Posts", len(df))
 
-    col1.metric("Total Posts", len(df))
-    col2.metric("Positive", (df["Sentiment"] == "Positive").sum())
-    col3.metric("Negative", (df["Sentiment"] == "Negative").sum())
-
-    # ----------------------------
-    # SENTIMENT DISTRIBUTION
-    # ----------------------------
-    st.subheader("Sentiment Distribution")
-
-    fig = px.pie(df, names="Sentiment", title="Sentiment Breakdown")
+    fig = px.pie(df, names="Sentiment")
     st.plotly_chart(fig)
 
-    # ----------------------------
-    # DETAILED TABLE
-    # ----------------------------
-    st.subheader("Detailed Analysis")
     st.dataframe(df)
