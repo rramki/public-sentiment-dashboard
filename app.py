@@ -16,7 +16,7 @@ if uploaded_file:
 
     llm = ChatOpenAI(
         model="gpt-3.5-turbo",
-        api_key=st.secrets["Key for APP"]
+        api_key=st.secrets["OPENAI_API_KEY"]
     )
 
     prompt = PromptTemplate(
