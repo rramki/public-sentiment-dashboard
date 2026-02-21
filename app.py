@@ -16,7 +16,7 @@ st.title("📊 Public Sentiment Monitoring Dashboard")
 # ----------------------------
 # LOAD DATA
 # ----------------------------
-uploaded_file = st.file_uploader("Upload CSV with public posts/comments", type=["csv"])
+uploaded_file = st.file_uploader("data.csv", type=["csv"])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
