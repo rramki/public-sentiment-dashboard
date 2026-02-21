@@ -6,12 +6,13 @@ from PIL import Image
 
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-
 # Load logo
 logo = Image.open("logo.png")
 
 # Display logo
-st.image(logo, width=1000)
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.image("logo.png", width=750)
 
 st.title("My Streamlit App")
 
