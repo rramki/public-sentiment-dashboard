@@ -2,9 +2,18 @@ import streamlit as st
 import pandas as pd
 import json
 import plotly.express as px
+from PIL import Image
 
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+
+# Load logo
+logo = Image.open("logo.png")
+
+# Display logo
+st.image(logo, width=200)
+
+st.title("My Streamlit App")
 
 st.set_page_config(page_title="Sentiment Dashboard", layout="wide")
 st.title("📊 Public Sentiment Monitoring Dashboard")
