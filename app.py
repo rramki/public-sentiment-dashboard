@@ -6,7 +6,7 @@ import plotly.express as px
 #from langchain.prompts import PromptTemplate
 from langchain_core.prompts import PromptTemplate
 from langchain_community.llms import Ollama
-from langchain.chains import LLMChain
+#from langchain.chains import LLMChain
 
 # ----------------------------
 # PAGE CONFIG
